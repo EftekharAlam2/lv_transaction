@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Transaction;
+use App\Models\Bank;
 
 class TransactionController extends Controller
 {
@@ -27,7 +28,17 @@ class TransactionController extends Controller
             $transaction = new Transaction();
             $transaction->amount = $request->input('amount');
             $transaction->description = $request->input('description');
+
+            // $lastId = Transaction::max('id');
+            // $nextStatusId = str_pad($lastId + 1, 5, '0', STR_PAD_LEFT);
+
+            // $transaction->status_id = $nextStatusId;
+            $transaction->status_id = rand(1, 3);
             $transaction->save();
+
+            $bank = new Bank();
+            $bank->status_id = $transaction->status_id;
+            $bank->save();
 
             DB::commit();
 
