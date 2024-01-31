@@ -8,6 +8,12 @@ use App\Models\Transaction;
 
 class TransactionController extends Controller
 {
+    public function showForm()
+    {
+        $transactions = Transaction::all();
+        return view('dashboard', ['transactions' => $transactions]);
+    }
+
     public function submit(Request $request)
     {
         $request->validate([
